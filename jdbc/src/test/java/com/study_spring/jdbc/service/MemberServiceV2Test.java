@@ -1,7 +1,9 @@
 package com.study_spring.jdbc.service;
 
 import com.study_spring.jdbc.domain.Member;
+import com.study_spring.jdbc.repository.MemberRepositoryV1;
 import com.study_spring.jdbc.repository.MemberRepositoryV2;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -11,24 +13,26 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import java.sql.SQLException;
 
 import static com.study_spring.jdbc.connection.ConnectionConst.*;
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-// 기본 동작, 트랜잭션이 없어서 문제 발생 할 예정
-class MemberServiceV1Test {
+// 트랜잭션 - 커넥션 파라미터 전달 방식 동기화
+@Slf4j
+class MemberServiceV2Test {
 
     public static final String MEMBER_A = "memberA";
     public static final String MEMBER_B = "memberB";
     public static final String MEMBER_EX = "ex";
 
     private MemberRepositoryV2 memberRepository;
-    private MemberServiceV1 memberService;
+    private MemberServiceV2 memberService;
 
     @BeforeEach
     void before() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource(URL, USERNAME, PASSWORD);
         // 커넥션 얻음
         memberRepository = new MemberRepositoryV2(dataSource);
-        memberService = new MemberServiceV1(memberRepository);
+        memberService = new MemberServiceV2(dataSource, memberRepository);
     }
 
     @AfterEach // 한번 실행할 때마다 DB 초기화
@@ -47,7 +51,9 @@ class MemberServiceV1Test {
         memberRepository.save(memberA);
         memberRepository.save(memberB);
         // when
+        log.info("START TX");
         memberService.accountTransfer(memberA.getMemberId(), memberB.getMemberId(), 2000);
+        log.info("END TX");
 
         // then
         Member findMemberA = memberRepository.findById(memberA.getMemberId());
@@ -75,7 +81,8 @@ class MemberServiceV1Test {
         Member findMemberA = memberRepository.findById(memberA.getMemberId());
         Member findMemberB = memberRepository.findById(memberEx.getMemberId());
 
-        assertThat(findMemberA.getMoney()).isEqualTo(8000); // 2000원 줄고,
-        assertThat(findMemberB.getMoney()).isEqualTo(10000); // 2000원 안늘어남.
+        // 롤백
+        assertThat(findMemberA.getMoney()).isEqualTo(10000);
+        assertThat(findMemberB.getMoney()).isEqualTo(10000);
     }
 }

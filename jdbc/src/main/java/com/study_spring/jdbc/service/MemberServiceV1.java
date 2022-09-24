@@ -1,7 +1,7 @@
 package com.study_spring.jdbc.service;
 
 import com.study_spring.jdbc.domain.Member;
-import com.study_spring.jdbc.repository.MemberRepositoryV1;
+import com.study_spring.jdbc.repository.MemberRepositoryV2;
 import lombok.RequiredArgsConstructor;
 
 import java.sql.SQLException;
@@ -9,7 +9,7 @@ import java.sql.SQLException;
 @RequiredArgsConstructor
 public class MemberServiceV1 {
 
-    private  final MemberRepositoryV1 memberRepository;
+    private  final MemberRepositoryV2 memberRepository;
 
     public void accountTransfer(String fromId, String toId, int money) throws SQLException {
         Member fromMember = memberRepository.findById(fromId);
@@ -22,6 +22,7 @@ public class MemberServiceV1 {
         // toId의 멤버를 조회후 머니를 뺌.
         memberRepository.update(toId, toMember.getMoney() + money);
 
+        // 커밋, 롤백
 
     }
 
