@@ -2,42 +2,26 @@ package com.study_spring.jdbc.service;
 
 import com.study_spring.jdbc.domain.Member;
 import com.study_spring.jdbc.repository.MemberRepositoryV3;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
 
-// 트랜 잭션 - 트랜잭션 매니저
-@RequiredArgsConstructor
+// 트랜 잭션 - @Transactional AOP
 @Slf4j
-class MemberServiceV3_1 {
-    
-//    private final DataSource dataSource;
-    private final PlatformTransactionManager transactionManager;
+class MemberServiceV3_3 {
     private  final MemberRepositoryV3 memberRepository;
 
+    public MemberServiceV3_3(MemberRepositoryV3 memberRepository) {
+        this.memberRepository = memberRepository;
+    }
+
+    @Transactional // 롤백과 커밋을 할 수 있음.
     public void accountTransfer(String fromId, String toId, int money) throws SQLException {
-//        Connection con = dataSource.getConnection();
-
-        // 파라미터로 속성에 관한 걸 넣어줘야함.
-        TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
-
-        try {
-            // 비지니스 로직 connectino 넘길 필요 없음.
-            bizLogic(fromId, toId, money);
-            // 커밋, 롤백
-//            con.commit(); // 성공시 커밋
-            transactionManager.commit(status);
-        } catch (Exception e) {
-            transactionManager.rollback(status);
-//            con.rollback(); // 실패시 롤백
-            throw new IllegalStateException(e);
-        }
+        // 비지니스 로직
+        bizLogic(fromId, toId, money);
     }
 
     private void bizLogic( String fromId, String toId, int money) throws SQLException {
@@ -51,7 +35,6 @@ class MemberServiceV3_1 {
         // toId의 멤버를 조회후 머니를 뺌.
         memberRepository.update(toId, toMember.getMoney() + money);
     }
-
     private static void validation(Member toMember) {
         if (toMember.getMemberId().equals("ex")) {
             throw new IllegalStateException("이체중 예외 발생");
@@ -59,3 +42,4 @@ class MemberServiceV3_1 {
     }
 
 }
+
