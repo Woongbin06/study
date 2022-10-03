@@ -30,7 +30,7 @@ class MemberServiceV3_4Test {
     public static final String MEMBER_EX = "ex";
 
     @Autowired
-    private MemberRepositoryV3 memberRepository;
+    private  MemberRepositoryV3 memberRepository;
     @Autowired
     private MemberServiceV3_3 memberService;
 
@@ -38,16 +38,13 @@ class MemberServiceV3_4Test {
     static class TestConfig {
 
         private final DataSource dataSource;
-
         public TestConfig(DataSource dataSource) {
             this.dataSource = dataSource;
         }
-
         @Bean
         MemberRepositoryV3 memberRepositoryV3() {
             return new MemberRepositoryV3(dataSource);
         }
-
         @Bean
         MemberServiceV3_3 memberServiceV3_3() {
             return new MemberServiceV3_3(memberRepositoryV3());
