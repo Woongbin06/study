@@ -1,8 +1,7 @@
 package com.todolist.todo_list;
 
-import com.todolist.todo_list.domain.ToDoList;
+import com.todolist.todo_list.domain.entity.ToDoList;
 import com.todolist.todo_list.domain.ToDoListRepository;
-import org.assertj.core.description.Description;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -37,11 +36,11 @@ public class ToDoListRepositoryTest {
 
     @Test
     public void update() {
-        
+
     }
 
     @Test
     public void delete() {
-        toDoListRepository.deleteById(1L);
+        toDoListRepository.deleteById(3L);
     }
 }

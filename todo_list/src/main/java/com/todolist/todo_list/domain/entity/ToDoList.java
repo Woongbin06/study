@@ -1,4 +1,4 @@
-package com.todolist.todo_list.domain;
+package com.todolist.todo_list.domain.entity;
 
 import com.sun.istack.NotNull;
 import lombok.AccessLevel;
