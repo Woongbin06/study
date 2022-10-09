@@ -1,4 +1,4 @@
-package com.todolist.todo_list.domain.res;
+package com.todolist.todo_list.domain.dto.res;
 
 import com.todolist.todo_list.domain.entity.ToDoList;
 import lombok.AllArgsConstructor;

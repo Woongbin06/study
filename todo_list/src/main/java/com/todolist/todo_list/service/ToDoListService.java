@@ -4,7 +4,10 @@ import com.todolist.todo_list.domain.ToDoListRepository;
 import com.todolist.todo_list.domain.dto.req.ToDoListRequest;
 import com.todolist.todo_list.domain.entity.ToDoList;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -23,6 +26,11 @@ public class ToDoListService {
 
     public ToDoList findById(Long id) {
         return this.toDoListRepository.findById(id)
-                .orElseThrow(() -> new Exception());
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    // 여러개이기 때문에 List로 묶어줌.
+    public List<ToDoList> findAll() {
+        return this.toDoListRepository.findAll();
     }
 }
