@@ -33,4 +33,23 @@ public class ToDoListService {
     public List<ToDoList> findAll() {
         return this.toDoListRepository.findAll();
     }
+
+    public ToDoList update(Long id, ToDoListRequest request) {
+        ToDoList toDoList = this.findById(id);
+
+        toDoList = ToDoList.builder()
+                .content(request.getContent())
+                .completed(request.getCompleted())
+                .build();
+
+        return this.toDoListRepository.save(toDoList);
+    }
+
+    public void delete(Long id) {
+        this.toDoListRepository.deleteById(id);
+    }
+
+    public void deleteAll() {
+        this.toDoListRepository.deleteAll();
+    }
 }
