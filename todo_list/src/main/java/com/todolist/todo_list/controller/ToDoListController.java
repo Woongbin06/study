@@ -5,6 +5,7 @@ import com.todolist.todo_list.domain.dto.res.ToDoListResponse;
 import com.todolist.todo_list.domain.entity.ToDoList;
 import com.todolist.todo_list.service.ToDoListService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ObjectUtils;
@@ -34,15 +35,17 @@ public class ToDoListController {
         if (ObjectUtils.isEmpty(request.getCompleted())) { // completed가 비어있다면 false넣기.
             request.setCompleted(false);
         }
-
         ToDoList result = this.service.create(request);
+
         return ResponseEntity.ok(new ToDoListResponse(result));
     }
 
     @GetMapping("/findbyid/{id}")
     public ResponseEntity<ToDoListResponse> readById(@PathVariable Long id) {
         System.out.println("Read bt id");
+
         ToDoList result = this.service.findById(id);
+
         return ResponseEntity.ok(new ToDoListResponse(result));
     }
 
@@ -58,20 +61,29 @@ public class ToDoListController {
     }
 
     @PatchMapping("/update/{id}")
-    public ResponseEntity<ToDoList> update() {
+    public ResponseEntity<ToDoList> update(@PathVariable Long id, @RequestBody ToDoListRequest request) {
         System.out.println("Update");
-        return null;
+
+        ToDoList result = this.service.update(id, request);
+
+        return ResponseEntity.ok(result);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<ToDoList> deleteById() {
+    public ResponseEntity<ToDoList> deleteById(@PathVariable Long id) {
         System.out.println("Delete by id");
-        return null;
+
+        this.service.delete(id);
+
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/deleteall")
     public ResponseEntity<List<ToDoList>> deleteAll() {
         System.out.println("Delete all");
-        return null;
+
+        this.service.deleteAll();
+
+        return ResponseEntity.ok().build();
     }
 }
