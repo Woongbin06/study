@@ -42,7 +42,7 @@ public class ToDoListController {
 
     @GetMapping("/findbyid/{id}")
     public ResponseEntity<ToDoListResponse> readById(@PathVariable Long id) {
-        System.out.println("Read bt id");
+        System.out.println("Read by id");
 
         ToDoList result = this.service.findById(id);
 
