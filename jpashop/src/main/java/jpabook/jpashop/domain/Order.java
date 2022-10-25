@@ -22,6 +22,7 @@ public class Order {
     @JoinColumn(name = "member_id") // foreign key를 member_id로
     private Member member; // Member랑 관계 설정
 
+    @OneToMany(mappedBy = "order")
     private List<OrderItem> oderItems = new ArrayList<>();
 
     private Delivery delivery;
