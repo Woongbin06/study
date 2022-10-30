@@ -24,4 +24,5 @@ public class Member {
     @OneToMany(mappedBy = "member") // 1 : n 관계 | 연관관계의 주인
     private List<Order> orders = new ArrayList<>();
 
+
 }
