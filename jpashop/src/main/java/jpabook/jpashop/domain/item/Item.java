@@ -13,7 +13,7 @@ import java.util.List;
 // 한 테이블에 다 넣기
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "dtype")
-@Getter
+@Getter @Setter
 public class Item {
 
     @Id
