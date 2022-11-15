@@ -25,7 +25,7 @@ public class OrderController {
     @GetMapping("/order")
     public String createForm(Model model) {
 
-        List<Member> members = memberService.findAll();
+        List<Member> members = memberService.findMembers();
         List<Item> items = itemService.findItems();
 
         model.addAttribute("members", members);
@@ -35,10 +35,10 @@ public class OrderController {
     }
 
     @PostMapping("/order")
-    public String create(@RequestParam("membersId") Long memberId, @RequestParam("itemId") Long itemId,
-                         @RequestParam("count") int count) {
+    public String order(@RequestParam("memberId") Long memberId,
+                        @RequestParam("itemId") Long itemId,
+                        @RequestParam("count") int count) {
         orderService.order(memberId, itemId, count);
-
         return "redirect:/orders";
     }
 
