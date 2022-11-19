@@ -1,5 +1,6 @@
 package jpabook.jpashop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,6 +22,7 @@ public class Member {
     @Embedded
     private Address address;
 
+    @JsonIgnore // 양방향 연관관계에서는 둘 중에 하나에 해줘야 댐.6
     @OneToMany(mappedBy = "member") // 1 : n 관계 | 연관관계의 주인
     private List<Order> orders = new ArrayList<>();
 

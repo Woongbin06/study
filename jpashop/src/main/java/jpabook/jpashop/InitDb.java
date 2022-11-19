@@ -1,4 +1,4 @@
-5package jpabook.jpashop;
+package jpabook.jpashop;
 
 import jpabook.jpashop.domain.*;
 import jpabook.jpashop.domain.item.Book;
