@@ -87,6 +87,11 @@ public class OrderApiController {
         return orderQueryRepository.findAllByDto_optimization();
     }
 
+    /**
+     * V5보다 더 느릴 수도 있음.
+     * 애플리케이션 추가 작업이 큼.
+     * 페이지 불가능
+     */
     @GetMapping("/api/v6/orders")
     public List<OrderQueryDto> orderV6  () {
         List<OrderFlatDto> flats = orderQueryRepository.findAllByDto_flat();
