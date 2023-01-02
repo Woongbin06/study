@@ -7,10 +7,9 @@ import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 @Data
-public class UserSignUpDto {
+public class UserSignUpRequestDto {
 
     // 이메일을 입력하지 않았을 때 해당 내용을 띄어줌.
     @NotBlank(message = "이메일을 입력해주세요.")
