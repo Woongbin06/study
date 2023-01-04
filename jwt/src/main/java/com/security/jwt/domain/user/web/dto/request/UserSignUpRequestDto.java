@@ -1,11 +1,13 @@
 package com.security.jwt.domain.user.web.dto.request;
 
+import com.security.jwt.domain.user.Role;
 import com.security.jwt.domain.user.User;
 import lombok.Builder;
 import lombok.Data;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 @Data
@@ -15,7 +17,7 @@ public class UserSignUpRequestDto {
     @NotBlank(message = "이메일을 입력해주세요.")
     private String email;
 
-    @NotBlank(message = "나이를 입력해주세요.")
+    @NotNull(message = "나이를 입력해주세요.")
     @Range(min = 1, max = 120) // 최소 나이와 최대 나이 지정
     private int age;
 
@@ -28,6 +30,8 @@ public class UserSignUpRequestDto {
             message = "비밀번호는 8~30 자리이면서 1개 이상의 알파벳, 숫자, 특수문자를 포함해야합니다.")
     private String password;
 
+    private Role role;
+
     @Builder
     public User toEntity(){
         return User.builder()
@@ -35,6 +39,7 @@ public class UserSignUpRequestDto {
                 .age(age)
                 .nickname(nickname)
                 .password(password)
+                .role(Role.USER)
                 .build();
     }
 }

@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests() // 요청에 의한 사용권환 체크
                 .antMatchers("/user/login").permitAll() // permitAll() : 인증 없이 허용.
                 .antMatchers("/user/join").permitAll()
-                .antMatchers("/user").permitAll()
+                .antMatchers("/user").hasRole("USER")
                 .anyRequest().authenticated();
     }
 }

@@ -10,10 +10,11 @@ import javax.persistence.*;
 @Getter
 @Entity
 @NoArgsConstructor
-@Table(name = "User_tbl")
+@Table(name = "user_tbl")
 public class User {
 
     @Id @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(length = 30, unique = true)
@@ -24,18 +25,19 @@ public class User {
 
     private int age;
 
-    @Column(length = 20)
+    @Column(length = 100)
     private String password;
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
     @Builder
-    public User(String email, String nickname, int age, String password) {
+    public User(String email, String nickname, int age, String password, Role role) {
         this.email = email;
         this.nickname = nickname;
         this.age = age;
         this.password = password;
+        this.role = role;
     }
 
 
